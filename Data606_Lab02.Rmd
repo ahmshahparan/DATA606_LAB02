@@ -1,0 +1,76 @@
+---
+title: "Probability"
+author: "A H M Shahparan"
+date: 02/18/2018
+output:
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    css: ./lab.css
+---
+
+###R Markdown
+```{r}
+load('more/kobe.RData')
+head(kobe)
+```
+```{r}
+streak = calc_streak(kobe$basket)
+barplot(table(streak),col='green')
+```
+
+1) What does a streak length of 1 mean, i.e. how many hits and misses are in a streak of 1? What about a streak length of 0?
+
+Streak length of 1 means Kobe made exactly one basket, before missing the following basket. Streak length of 0 occurs when a miss follows another miss, the second miss is the 0 length streak.
+
+2) Describe the distribution of Kobe’s streak lengths from the 2009 NBA finals. What was his typical streak length? How long was his longest streak of baskets?
+
+Kobe's typical streak length was around 0-1. The mean of the all the streaks is .76, while his majority streak lenght is 0. So, we usually can expect a shot to be made rather than to me missed. Kobe’s longest streak was 4.
+
+3) In your simulation of flipping the unfair coin 100 times, how many flips came up heads?
+
+```{r}
+outcomes <- c("heads", "tails")
+sample(outcomes, size = 1, replace = TRUE)
+sim_unfair_coin <- sample(outcomes, size = 100, replace = TRUE, prob = c(0.2, 0.8))
+table(sim_unfair_coin)
+```
+13 flips became heads.
+
+4) What change needs to be made to the sample function so that it reflects a shooting percentage of 45%? Make this adjustment, then run a simulation to sample 133 shots. Assign the output of this simulation to a new object called sim_basket.
+
+```{r}
+outcomes <-c("H", "M")
+sim_basket <- sample(outcomes, size = 133, replace = TRUE, prob = (c(0.45, 0.55)))
+sim_basket
+table(sim_basket)
+```
+
+##On your own
+1) Describe the distribution of streak lengths. What is the typical streak length for this simulated independent shooter with a 45% shooting percentage? How long is the player’s longest streak of baskets in 133 shots?
+```{r}
+outcomes <-c("H", "M")
+sim_basket <- sample(outcomes, size = 133, replace = TRUE, prob = (c(0.45, 0.55)))
+streak_sim = calc_streak(sim_basket)
+barplot(table(streak_sim),col='orange')
+```
+The distribution of streak lengths if right skewed. The typical streak length is similar to kobes: 0-1. The longest streak in this sample is:
+```{r}
+cat("Shooter's longest streak is:", max(streak_sim))
+```
+
+2) If you were to run the simulation of the independent shooter a second time, how would you expect its streak distribution to compare to the distribution from the question above? Exactly the same? Somewhat similar? Totally different? Explain your reasoning.
+
+If I were to run the simulation of the independent shooter a second time, I would expect somewhat similar streak distribution to compare to the distribution from question above. The lenght of the longest streak might be higher or lower comparing to the question above, but I believe the typical streak lenght would be 0-1 as before.
+
+```{r}
+outcomes <-c("H", "M")
+new_sim_basket <- sample(outcomes, size = 133, replace = TRUE, prob = (c(0.45, 0.55)))
+new_streak_sim = calc_streak(new_sim_basket)
+barplot(table(new_streak_sim),col='blue')
+```
+After running the simulation again, it concludes somewhat same streak distribution - typical streaks lenght were around 0-1, with a few high streaks.
+
+3) How does Kobe Bryant’s distribution of streak lengths compare to the distribution of streak lengths for the simulated shooter? Using this comparison, do you have evidence that the hot hand model fits Kobe’s shooting patterns? Explain.
+
+There is not enough evidence to say the hot hand model fits Kobe's shooting patters. Because, Kobe Bryant’s distrubution of streak lengths compares to the simulated shooter. They both on average have mostly 0-1 hits for their streak with a few high streaks even though simulater shooter has a shooting percentile of 45%.
